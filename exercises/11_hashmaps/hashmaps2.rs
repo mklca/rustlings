@@ -14,8 +14,7 @@
 // Execute `rustlings hint hashmaps2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
+use core::panic;
 use std::collections::HashMap;
 
 #[derive(Hash, PartialEq, Eq)]
@@ -28,6 +27,9 @@ enum Fruit {
 }
 
 fn fruit_basket(basket: &mut HashMap<Fruit, u32>) {
+    use std::cmp::max;
+    use std::collections::hash_map::Entry::{Vacant, Occupied};
+
     let fruit_kinds = vec![
         Fruit::Apple,
         Fruit::Banana,
@@ -36,10 +38,22 @@ fn fruit_basket(basket: &mut HashMap<Fruit, u32>) {
         Fruit::Pineapple,
     ];
 
-    for fruit in fruit_kinds {
-        // TODO: Insert new fruits if they are not already present in the
-        // basket. Note that you are not allowed to put any type of fruit that's
-        // already present!
+    let remaining_fruits = fruit_kinds.len() - basket.len();
+    if remaining_fruits <= 0 {
+        panic!("basket already contains all kinds of fruits");
+    }
+
+    let initial_basket_population: u32 = basket.values().sum();
+
+    let gather_count = max(1, 11 - initial_basket_population);
+
+    'fruit_loop: for fruit in fruit_kinds {
+        match basket.entry(fruit) {
+            Occupied(_) => continue 'fruit_loop,
+            Vacant(hole) => {
+                hole.insert(gather_count);
+            }
+        }
     }
 }
 
