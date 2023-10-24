@@ -13,10 +13,19 @@
 //
 // No hints this time ;)
 
-// I AM NOT DONE
+const DISCOUNT_THRESHOLD_QUANTITY: u32 = 40;
 
-// Put your function here!
-// fn calculate_price_of_apples {
+const UNDISCOUNTED_UNIT_APPLE_PRICE: u32 = 2;
+const DISCOUNTED_UNIT_APPLE_PRICE: u32 = 1;
+
+ fn calculate_price_of_apples(quantity: u32) -> u32 {
+     let price = if quantity > DISCOUNT_THRESHOLD_QUANTITY {
+         DISCOUNTED_UNIT_APPLE_PRICE
+     } else {
+         UNDISCOUNTED_UNIT_APPLE_PRICE
+     };
+     quantity*price
+ }
 
 // Don't modify this function!
 #[test]
